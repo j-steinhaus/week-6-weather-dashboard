@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>WeatherDashboard</title>
+  </head>
+
+  <!-- body  -->
+  <body class="flex-col">
+      <!-- Header -->
+        <h1 class="title">W e a t h e r D a s h b o a r d</h1>
+      </header>
+
+      <main class="justify-space-around align-center flex-row">
+        <!-- Form -->
+        <section class="col-12 col-md-4">
+          <div class="card form-card text-center">
+            <h3 class="card-header">Search for a City</h3>
+            <form id="new-city" class="card-body">
+              <label for="city-input" class="form-label">City Name:</label>
+              <input
+                id="city-input"
+                type="text"
+                name="city-input"
+                class="form-input text-center"
+              />
+              <button type="submit" class="btn">Submit</button>
+            </form>
+          </div>
+        </section>
+        <section class="col-12 col-md-4">
+          <div class="card form-card text-center">
+            <h3 class="card-header">Search History:</h3>
+            <ol id="recent-searches" class="card-body">
+              <button id="clear-button" type="submit" class="btn btn-clear">
+                Clear History
+              </button>
+            </ol>
+          </div>
+        </section>
+
+        <div class="col-12 col-md-9">
+          <!-- Current Weather -->
+          <section class="card-holder text-center">
+            <h2 class="card-holder-header">
+             C u r r e n t W e a t h e r
+              <span class="city-name"></span>
+            </h2>
+            <div class="flex-row justify-center">
+              <div id="current-forecast"></div>
+            </div>
+          </section>
+
+          <!-- 5 Day Forecast -->
+          <section class="card-holder text-center">
+            <h2 class="card-holder-header">
+              5  D a y F o r e c a s t <span class="city-name"></span>
+            </h2>
+            <div class="flex-row justify-space-around">
+              <div class="day-0"></div>
+              <div class="day-1"></div>
+              <div class="day-2"></div>
+              <div class="day-3"></div>
+              <div class="day-4"></div>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <!-- My JS -->
+    <script src="./assets/js/app.js"></script>
+  </body>
+</html>
