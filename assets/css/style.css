@@ -92,6 +92,7 @@
     outline: none;
     background-color: var(--primary);
     box-shadow: 3px 3px var(--dark);
+    
   }
   
   .btn-clear {
@@ -164,16 +165,22 @@
   }
   
   .uv-low {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
     background-color: var(--uv-low);
-    padding: 0 10px;
-    box-shadow: 6px 5px var(--dark);
     color: var(--light);
+  
+
   }
   
   .uv-moderate {
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
     background-color: var(--uv-moderate);
-    padding: 0 10px;
-    box-shadow: 6px 5px var(--dark);
     color: var(--dark);
   }
   
@@ -189,7 +196,7 @@
     padding: 0 10px;
     box-shadow: 6px 5px var(--dark);
     color: var(--light);
-  }
+  } */
   
   /* FORM */
   .form-label,
@@ -261,6 +268,13 @@
   .text-center {
     text-align: center;
   }
+
+/* hover effects  */
+.btn:hover {
+background-color: var(--tertiary);
+
+}
+
   
   /* smaller to smallest */
   @media screen and (min-width: 768px) {

@@ -11,8 +11,29 @@ var submitBtn = document.getElementById("submit");
 var historyParentEl = document.getElementById("recent-searches");
 var localStorageCityName = JSON.parse(localStorage.getItem("lastSearch")) || [];
 
+//  variables for symbols
+var perSym = "%";
+var farSym = "֯֯°F";
+var windSym = "MPH";
+
+// search history
+var displayLastSearched = function (cityName) {
+  var recentSearchListParent = document.getElementById("recent-searches");
+  var lastSearchButtonEl = document.createElement("button");
+  lastSearchButtonEl.setAttribute("class", "btn last-searched-button");
+  capitolizedCityName = cityName
+    .toLowerCase()
+    .split(" ")
+    .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+    .join(" ");
+  lastSearchButtonEl.innerText = capitolizedCityName;
+  recentSearchListParent.appendChild(lastSearchButtonEl);
+  clearBtnEl.addEventListener("click", clearHistory);
+};
+
 var formSubmitHandler = function (event) {
   event.preventDefault();
+  setLocalStorage();
   var userInput = cityInputEl.value.trim();
   var coordinates =
     "http://api.openweathermap.org/geo/1.0/direct?q=" +
@@ -46,8 +67,8 @@ var formSubmitHandler = function (event) {
           currentEl.innerHTML = "";
 
           //   current temp
-          var currentTemp = document.createElement("h3");
-          currentTemp.textContent = data.current.temp;
+          var currentTemp = document.createElement("h4");
+          currentTemp.textContent = `${data.current.temp} ${farSym}`;
           currentEl.append(currentTemp);
 
           // icon code for weather
@@ -55,20 +76,49 @@ var formSubmitHandler = function (event) {
           icon.setAttribute("src", iconUrl);
           currentEl.append(icon);
 
+          //   wind code
+          var wind = document.createElement("h5");
+          wind.textContent = `wind: ${data.current.wind_speed} ${windSym}`;
+          currentEl.append(wind);
+
           // humidity code here
-          var humidity = document.createElement("h4");
-          humidity.textContent = data.current.humidity;
+          var humidity = document.createElement("h5");
+          humidity.textContent = `humidity: ${data.current.humidity} ${perSym}`;
           currentEl.append(humidity);
 
           // UV Index Code here
-          var uvIndex = document.createElement("h4");
-          uvIndex.textContent = data.current.uvi;
+          var uvIndex = document.createElement("h5");
+          uvIndex.textContent = `uv Index: ${data.current.uvi}`;
           currentEl.append(uvIndex);
 
-          // 5 Day Forecase Below
+          //   ////////////////////////////////////
+          //   // uv index color
+          //   var currentUVEl = document.createElement("h5");
+          //   // set colors for uv index
+          //   if (uvIndex < 2.99) {
+          //     // color green
+          //     element.style.color = "green";
+          // //   } else if (data.current.uvi > 3 && data.current.uvi < 5.99) {
+          // //     // color yellow
+          // //     currentUVEl.innerHTML = element.style.color = "yellow";
+          // //   } else if (uvIndex > 6 && data.current.uvi < 7.99) {
+          // //     // color orange
+          // //     currentUVEl.innerHTML = element.style.color = "orange";
+          // //   } else if (uvIndex > 8) {
+          // //     // color red
+          // //     currentUVEl.innerHTML = element.style.color = "red";
+          // //   }
+
+          ///////////////////////////////////////////////////
+
+          // 5 Day Forecast Below
+
+          //   clears out
+          fiveEl.innerHTML = "";
 
           for (let index = 0; index < data.daily.length - 3; index++) {
             const element = data.daily[index];
+
             console.log(element);
 
             var dailyDiv = document.createElement("div");
@@ -77,7 +127,7 @@ var formSubmitHandler = function (event) {
 
             // 5 day forecast
             var forecastTemp = document.createElement("h3");
-            forecastTemp.textContent = data.daily[index].temp.day;
+            forecastTemp.textContent = `${data.daily[index].temp.day} ${farSym}`;
             dailyDiv.append(forecastTemp);
 
             // icon for 5day
@@ -85,16 +135,20 @@ var formSubmitHandler = function (event) {
             icon2.setAttribute("src", iconUrl2);
             dailyDiv.append(icon2);
 
+            // wind 5 day code
+            var wind5 = document.createElement("h6");
+            wind5.textContent = `wind: ${data.daily[index].wind_speed} ${windSym}`;
+            dailyDiv.append(wind5);
+
             // humidity 5 day code here
-            var humidity5 = document.createElement("h4");
-            console.log(humidity5);
-            humidity5.textContent = data.daily[index].humidity;
+            var humidity5 = document.createElement("h6");
+            humidity5.textContent = `humidity: ${data.daily[index].humidity} ${perSym}`;
             dailyDiv.append(humidity5);
 
-            // UV 5 day Index Code here
-            var uvIndex5 = document.createElement("h4");
-            uvIndex5.textContent = data.daily[index].uvi;
-            dailyDiv.append(uvIndex5);
+            // // UV 5 day Index Code here
+            // var uvIndex5 = document.createElement("h6");
+            // uvIndex5.textContent = `uv Index: ${data.daily[index].uvi}`;
+            // dailyDiv.append(uvIndex5);
 
             // important - stay here
             fiveEl.append(dailyDiv);
@@ -104,3 +158,37 @@ var formSubmitHandler = function (event) {
 };
 
 submitBtn.addEventListener("click", formSubmitHandler);
+
+function setLocalStorage() {
+  const lastSearch = cityInputEl.value.trim();
+  localStorageCityName.push(lastSearch);
+  localStorage.setItem("lastSearch", JSON.stringify(localStorageCityName));
+}
+
+// Load last searched zip code
+var loadLastSearched = function () {
+  lastSearch = JSON.parse(localStorage.getItem("lastSearch")) || [];
+
+  // create empty string if there is nothing saved in localStorage
+  if (lastSearch.length !== 0) {
+    for (i = 0; i < lastSearch.length; i++) {
+      displayLastSearched(lastSearch[i]);
+    }
+  }
+};
+
+// clear recent city search history
+var clearHistory = function () {
+  window.localStorage.removeItem("lastSearch");
+  window.location.reload();
+};
+
+// reload recent search on button click
+var reSearchRecent = function (event) {
+  var recentSearch = event.target.textContent;
+  fetchCityCoordinates(recentSearch);
+};
+
+loadLastSearched();
+cityFormEl.addEventListener("submit", formSubmitHandler);
+historyParentEl.addEventListener("click", reSearchRecent);
