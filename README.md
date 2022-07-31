@@ -32,6 +32,6 @@ The URL of the GitHub repository
 # Data Template
 ![Screenshot 2022-07-31 at 2 33 09 PM](https://user-images.githubusercontent.com/107279088/182044217-f7c8c95c-d454-43bc-8b79-175fea7b74c4.png)
 
-#Smaller View
+# Smaller View
 ![Screenshot 2022-07-31 at 2 33 51 PM](https://user-images.githubusercontent.com/107279088/182044242-e0ed8c51-c46d-4910-9f0f-f5566811557a.png)
 
