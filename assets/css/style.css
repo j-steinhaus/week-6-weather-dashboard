@@ -275,6 +275,11 @@ background-color: var(--tertiary);
 
 }
 
+.btn-clear:hover {
+  background-color: var(--tertiary);
+  
+  }
+
   
   /* smaller to smallest */
   @media screen and (min-width: 768px) {
